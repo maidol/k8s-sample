@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: env-cm-pod
+spec:
+  containers:
+    - name: test-cm
+      image: ubuntu
+      env:
+        - name: PRIMARY_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: test-cm
+              key: key1
+        - name: SECONDARY_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: test-cm
+              key: key2

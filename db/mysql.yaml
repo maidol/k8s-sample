@@ -1,0 +1,26 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      nodeSelector: 
+       cw-node: common
+      containers:
+      - name: mysql
+        image: mysql:5.6.34
+        ports:
+        - containerPort: 3306
+          hostPort: 3306
+        env:
+        - name: MYSQL_USER
+          value: "xxxxxx"
+        - name: MYSQL_PASSWORD
+          value: "xxxxxx"
+        - name: MYSQL_ROOT_PASSWORD
+          value: "xxxxxx"

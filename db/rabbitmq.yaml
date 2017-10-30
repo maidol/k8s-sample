@@ -1,0 +1,32 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: rabbitmq
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      nodeSelector: 
+       cw-node: common
+      containers:
+      - name: rabbitmq
+        image: rabbitmq:3.6.10-management
+        ports:
+        - containerPort: 5672
+          hostPort: 5672
+        - containerPort: 15672
+          hostPort: 15672
+        env:
+        - name: HOME
+          value: "/var/lib/rabbitmq"
+        - name: RABBITMQ_DEFAULT_PASS
+          value: "xxxxxx"
+        - name: RABBITMQ_DEFAULT_USER
+          value: "xxxxxx"
+        - name: RABBITMQ_DEFAULT_VHOST
+          value: "xxxxxx"
+        - name: RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS
+          value: "-rabbit log_levels [{connection,error}]"

@@ -1,0 +1,56 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: cw-api-gateway
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: cw-api-gateway
+    spec:
+      nodeSelector: 
+       cw-node: microservice
+      containers:
+      - name: cw-api-gateway
+        image: gateway:test
+        ports:
+        - containerPort: 8000
+          hostPort: 8000
+        env:
+        - name: NODE_ENV
+          value: test
+        - name: NPM_CONFIG_LOGLEVEL
+          value: info
+      imagePullSecrets:
+      - name: docker-registry-key-jiaofuyun-1
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: cw-api-gateway
+spec:
+  selector:
+    app: cw-api-gateway
+  ports:
+    - name: main
+      protocol: TCP
+      port: 8080
+      targetPort: 8000
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: cw-api-gateway
+spec:
+  rules:
+  - host: xxxxxx
+    http:
+      paths:
+      - backend:
+          serviceName: cw-api-gateway
+          servicePort: 8080

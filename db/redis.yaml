@@ -1,0 +1,25 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      nodeSelector: 
+       cw-node: common
+      containers:
+      - name: redis
+        image: redis:alpine
+        ports:
+        - containerPort: 6379
+          hostPort: 6379
+        command:
+        - redis-server
+        - --requirepass
+        - xxxxxx
+        - --appendonly
+        - 'yes'

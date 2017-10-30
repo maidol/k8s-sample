@@ -1,23 +1,10 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: proxy
+  name: ingress-svc
   annotations:
     http.port: '9000'
 spec:
   backend:
-    serviceName: proxy
-    servicePort: 80
-    
----
-
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: nginx
-  annotations:
-    http.port: '9001'
-spec:
-  backend:
-    serviceName: nginx
-    servicePort: 80
+    serviceName: svc-proxy
+    servicePort: 8080
